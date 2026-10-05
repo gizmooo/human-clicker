@@ -11,6 +11,8 @@
 
 > **Disclaimer.** Most games forbid automation in their terms of service and may ban your account. This tool makes clicking look natural, it does not make it invisible. Use at your own risk.
 
+Built for people who physically cannot click for long (RSI, limited mobility) and for idle and clicker games where auto-clicking is part of the genre.
+
 ## Why not a plain auto-clicker?
 
 A plain clicker fires every N milliseconds into the same pixel. That pattern is trivial to spot, and it also looks nothing like a person. Human Clicker models the hand instead of the timer:
