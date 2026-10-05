@@ -13,6 +13,8 @@
 
 Built for people who physically cannot click for long (RSI, limited mobility) and for idle and clicker games where auto-clicking is part of the genre.
 
+An Android version with the same timing model is planned after v2.0.0.
+
 ## Why not a plain auto-clicker?
 
 A plain clicker fires every N milliseconds into the same pixel. That pattern is trivial to spot, and it also looks nothing like a person. Human Clicker models the hand instead of the timer:
