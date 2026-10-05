@@ -42,7 +42,7 @@ If you move the mouse more than 30 px away between clicks, the clicker pauses it
 
 ## Settings
 
-Constants at the top of `src/clicker.ts`:
+Settings object in `src/clicker.ts`:
 
 | Parameter | Default | Description |
 |-----------|---------|-------------|
@@ -70,7 +70,8 @@ npm run typecheck    # tsc --noEmit
 
 ## Files
 
-- `src/clicker.ts` — main loop, hotkeys, time limit
+- `src/clicker.ts` — entry: CLI args, settings, hotkeys
+- `src/engine.ts` — the click loop with injectable robot, clock and sleep
 - `src/utils.ts` — `logNormal`, `moveSmooth`, `sleep`, `rnd`
 - `src/lang.ts`, `src/locales.json` — UI strings (en, ru, es, zh). Add a language: new key in `locales.json`
 - `test/` — tests

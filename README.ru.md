@@ -42,7 +42,7 @@ npm start -- --lang ru           # принудительный язык: en, ru
 
 ## Настройки
 
-Константы в начале `src/clicker.ts`:
+Объект настроек в `src/clicker.ts`:
 
 | Параметр | По умолчанию | Описание |
 |----------|--------------|----------|
@@ -70,7 +70,8 @@ npm run typecheck    # tsc --noEmit
 
 ## Файлы
 
-- `src/clicker.ts` — основной цикл, горячие клавиши, лимит времени
+- `src/clicker.ts` — точка входа: аргументы, настройки, горячие клавиши
+- `src/engine.ts` — цикл кликов с внедряемыми robot, часами и sleep
 - `src/utils.ts` — `logNormal`, `moveSmooth`, `sleep`, `rnd`
 - `src/lang.ts`, `src/locales.json` — строки интерфейса (en, ru, es, zh). Новый язык: ключ в `locales.json`
 - `test/` — тесты
