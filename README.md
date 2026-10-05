@@ -8,7 +8,7 @@ Auto-clicker that behaves like a human: log-normal delays, position jitter, butt
 
 ## Requirements
 
-- Node.js 22.18 or newer (24 recommended): TypeScript runs natively, no build step
+- Node.js 22.18 or newer, latest LTS recommended: TypeScript runs natively, no build step
 - Windows (native modules `robotjs` and `uiohook-napi`; macOS/Linux untested)
 
 ## Install
