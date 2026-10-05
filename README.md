@@ -25,6 +25,7 @@ npm install
 npm start                        # 60 min limit, language from system locale
 npm start -- --max 30            # 30 min limit
 npm start -- --lang en           # force language: en, ru, es, zh
+npm start -- --help
 ```
 
 Or double-click `start.cmd`: it checks for Node and dependencies, installs them if needed, and passes arguments through.
@@ -48,17 +49,17 @@ Settings object in `src/clicker.ts`:
 
 | Parameter | Default | Description |
 |-----------|---------|-------------|
-| `FIXED_TARGET` | `null` | `{x, y}` for fixed coordinates; `null` = mouse position at start |
-| `START_DELAY` | 5 | seconds before start |
-| `CLICK_DELAY` | 250 ms, σ 0.25, [150, 500] | interval between clicks: median, spread, bounds |
-| `HOLD` | 70 ms, σ 0.3, [40, 150] | button hold time |
-| `JITTER_PX` | 3 | position jitter ±px |
-| `SHIFT_EVERY` | [5, 15] | clicks between cursor shifts; always after a rest |
-| `REST_EVERY` | [20, 50] | clicks between rests |
-| `REST_MS` | [600, 1800] | rest duration, ms |
-| `AWAY_PX` | 30 | auto-pause threshold |
+| `fixedTarget` | `null` | `{x, y}` for fixed coordinates; `null` = mouse position at start |
+| `startDelay` | 5 | seconds before start |
+| `clickDelay` | 250 ms, σ 0.25, [150, 500] | interval between clicks: median, spread, bounds |
+| `hold` | 70 ms, σ 0.3, [40, 150] | button hold time |
+| `jitterPx` | 3 | position jitter ±px |
+| `shiftEvery` | [5, 15] | clicks between cursor shifts; always after a rest |
+| `restEvery` | [20, 50] | clicks between rests |
+| `restMs` | [600, 1800] | rest duration, ms |
+| `awayPx` | 30 | auto-pause threshold |
 
-Delays are log-normal: clustered around the median with rare long tails. For a safer profile raise the `CLICK_DELAY` median to 350–450.
+Delays are log-normal: clustered around the median with rare long tails. For a safer profile raise the `clickDelay` median to 350–450.
 
 ## Development
 

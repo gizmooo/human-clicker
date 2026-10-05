@@ -2,12 +2,25 @@ import robot from "robotjs";
 import { uIOhook, UiohookKey } from "uiohook-napi";
 import { parseArgs } from "node:util";
 import { createClicker } from "./engine.ts";
-import { makeT, systemLang } from "./lang.ts";
+import { makeT, systemLang, languages } from "./lang.ts";
 
-const { values: args } = parseArgs({ options: {
-  max: { type: "string", default: "60" },   // --max <minutes>, timer resets on pause
-  lang: { type: "string" },                 // --lang en|ru|es|zh, default: system locale
-} });
+const usage = `Usage: npm start -- [--max <minutes>] [--lang ${languages.join("|")}]
+  --max   time limit in minutes, default 60; the timer resets on resume
+  --lang  UI language, default: system locale`;
+
+const fail = (msg: string): never => { console.error(msg + "\n" + usage); process.exit(1); };
+const parse = () => {
+  try {
+    return parseArgs({ options: {
+      max: { type: "string", default: "60" },
+      lang: { type: "string" },
+      help: { type: "boolean", short: "h" },
+    } }).values;
+  } catch (e) { return fail((e as Error).message); }
+};
+const args = parse();
+if (args.help) { console.log(usage); process.exit(0); }
+if (!(Number(args.max) > 0)) fail(`--max must be a positive number of minutes, got "${args.max}"`);
 const t = makeT(args.lang ?? systemLang());
 
 // ================= SETTINGS =================
