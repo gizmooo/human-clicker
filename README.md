@@ -42,7 +42,7 @@ If you move the mouse more than 30 px away between clicks, the clicker pauses it
 
 ## Settings
 
-Constants at the top of `clicker.js`:
+Constants at the top of `src/clicker.ts`:
 
 | Parameter | Default | Description |
 |-----------|---------|-------------|
@@ -58,11 +58,22 @@ Constants at the top of `clicker.js`:
 
 Delays are log-normal: clustered around the median with rare long tails. For a safer profile raise the `CLICK_DELAY` median to 350–450.
 
+## Development
+
+TypeScript runs directly on Node 24 (built-in type stripping), no build step. Dev dependencies are only needed for type-checking; `start.cmd` installs without them.
+
+```
+npm install          # with dev dependencies
+npm test             # node:test
+npm run typecheck    # tsc --noEmit
+```
+
 ## Files
 
-- `clicker.js` — main loop, hotkeys, time limit
-- `utils.js` — `logNormal`, `moveSmooth`, `sleep`, `rnd`. Self-check: `node utils.js`
-- `lang.js` — UI strings (en, ru, es, zh). Self-check: `node lang.js`
+- `src/clicker.ts` — main loop, hotkeys, time limit
+- `src/utils.ts` — `logNormal`, `moveSmooth`, `sleep`, `rnd`
+- `src/lang.ts`, `src/locales.json` — UI strings (en, ru, es, zh). Add a language: new key in `locales.json`
+- `test/` — tests
 - `start.cmd` — Windows launcher
 
 ## License

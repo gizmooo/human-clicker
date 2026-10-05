@@ -2,9 +2,11 @@
   "name": "human-clicker",
   "version": "1.0.0",
   "private": true,
-  "main": "clicker.js",
+  "main": "src/clicker.ts",
   "scripts": {
-    "start": "node clicker.js"
+    "start": "node src/clicker.ts",
+    "test": "node --test \"test/**/*.test.ts\"",
+    "typecheck": "tsc"
   },
   "dependencies": {
     "robotjs": "^0.9.1",
@@ -13,5 +15,13 @@
   "description": "Auto-clicker with human-like timing, jitter and rests",
   "license": "MIT",
   "author": "Anton Ustinov",
-  "repository": "github:gizmooo/human-clicker"
+  "repository": "github:gizmooo/human-clicker",
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.4",
+    "typescript": "^7.0.2"
+  }
 }

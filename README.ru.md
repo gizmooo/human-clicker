@@ -42,7 +42,7 @@ npm start -- --lang ru           # принудительный язык: en, ru
 
 ## Настройки
 
-Константы в начале `clicker.js`:
+Константы в начале `src/clicker.ts`:
 
 | Параметр | По умолчанию | Описание |
 |----------|--------------|----------|
@@ -58,11 +58,22 @@ npm start -- --lang ru           # принудительный язык: en, ru
 
 Задержки лог-нормальные: кучкуются у медианы, редкие длинные хвосты. Если нужно безопаснее, подними медиану `CLICK_DELAY` до 350–450.
 
+## Разработка
+
+TypeScript выполняется Node 24 напрямую (встроенный type stripping), сборки нет. Dev-зависимости нужны только для проверки типов, `start.cmd` ставит без них.
+
+```
+npm install          # с dev-зависимостями
+npm test             # node:test
+npm run typecheck    # tsc --noEmit
+```
+
 ## Файлы
 
-- `clicker.js` — основной цикл, горячие клавиши, лимит времени
-- `utils.js` — `logNormal`, `moveSmooth`, `sleep`, `rnd`. Самопроверка: `node utils.js`
-- `lang.js` — строки интерфейса (en, ru, es, zh). Самопроверка: `node lang.js`
+- `src/clicker.ts` — основной цикл, горячие клавиши, лимит времени
+- `src/utils.ts` — `logNormal`, `moveSmooth`, `sleep`, `rnd`
+- `src/lang.ts`, `src/locales.json` — строки интерфейса (en, ru, es, zh). Новый язык: ключ в `locales.json`
+- `test/` — тесты
 - `start.cmd` — запуск под Windows
 
 ## Лицензия
