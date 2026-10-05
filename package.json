@@ -1,0 +1,17 @@
+{
+  "name": "human-clicker",
+  "version": "1.0.0",
+  "private": true,
+  "main": "clicker.js",
+  "scripts": {
+    "start": "node clicker.js"
+  },
+  "dependencies": {
+    "robotjs": "^0.9.1",
+    "uiohook-napi": "^1.5.5"
+  },
+  "description": "Auto-clicker with human-like timing, jitter and rests",
+  "license": "MIT",
+  "author": "Anton Ustinov",
+  "repository": "github:gizmooo/human-clicker"
+}
