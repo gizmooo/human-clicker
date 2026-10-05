@@ -1,36 +1,53 @@
-# human-clicker
+# Human Clicker 🐭
 
-![CI](https://github.com/gizmooo/human-clicker/actions/workflows/ci.yml/badge.svg)
+**Human-like auto-clicker and mouse macro for Windows, built on Node.js.** Log-normal delays, variable button hold, cursor jitter, periodic rests and smooth cursor motion: it clicks the way a hand on a mouse does, not the way a timer does.
+
+[![CI](https://github.com/gizmooo/human-clicker/actions/workflows/ci.yml/badge.svg)](https://github.com/gizmooo/human-clicker/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Platform: Windows](https://img.shields.io/badge/platform-Windows-0078d4.svg)]()
+[![Node >= 22.18](https://img.shields.io/badge/node-%3E%3D22.18-339933.svg)](https://nodejs.org)
 
 [Русский](README.ru.md)
 
-Auto-clicker that behaves like a human: log-normal delays, position jitter, button hold time, occasional rests, smooth cursor moves.
+> **Disclaimer.** Most games forbid automation in their terms of service and may ban your account. This tool makes clicking look natural, it does not make it invisible. Use at your own risk.
 
-> **Disclaimer.** Most games forbid automation in their terms of service and may ban your account. Use at your own risk.
+## Why not a plain auto-clicker?
 
-## Requirements
+A plain clicker fires every N milliseconds into the same pixel. That pattern is trivial to spot, and it also looks nothing like a person. Human Clicker models the hand instead of the timer:
 
-- Node.js 22.18 or newer, latest LTS recommended: TypeScript runs natively, no build step
-- Windows (native modules `robotjs` and `uiohook-napi`; macOS/Linux untested)
+- **Log-normal delays.** Intervals between clicks are drawn from a log-normal distribution (Box–Muller transform). They cluster around a median with rare longer pauses, the same shape real reaction times have.
+- **Variable button hold.** The time between mouse-down and mouse-up is different on every click.
+- **Cursor jitter and shifts.** The cursor does not sit on one pixel forever. Every few clicks, and always after a rest, it shifts by a couple of pixels.
+- **Rests.** Every few dozen clicks the clicker takes a short break, like a hand that pauses.
+- **Smooth motion.** Cursor moves follow an ease-in-out curve instead of teleporting.
 
-## Install
+## Features
+
+- **Target from the mouse.** Point at what you want clicked, wait for the countdown, done. Fixed coordinates are available too.
+- **Safety auto-pause.** Move the mouse away and the clicker pauses itself instead of fighting you for the cursor.
+- **Global hotkeys.** `Space` pauses and resumes, `Esc` quits, from any window.
+- **Time limit.** Stops on its own after 60 minutes by default, so a forgotten clicker does not run all night.
+- **Four UI languages.** English, Russian, Spanish, Chinese, picked from the system locale.
+- **One-click launcher.** `start.cmd` checks Node, installs runtime dependencies and starts the clicker.
+
+## Quick start
+
+1. Install [Node.js](https://nodejs.org), 22.18 or newer, latest LTS recommended.
+2. Download the project ([zip](https://github.com/gizmooo/human-clicker/archive/refs/heads/master.zip) or `git clone`) and unpack it.
+3. Double-click **`start.cmd`**. It installs what is missing and launches the clicker.
+4. You have 5 seconds to point the mouse at the target. Then it clicks until you press `Esc`.
+
+From the console:
 
 ```
 npm install
-```
-
-## Run
-
-```
 npm start                        # 60 min limit, language from system locale
 npm start -- --max 30            # 30 min limit
 npm start -- --lang en           # force language: en, ru, es, zh
 npm start -- --help
 ```
 
-Or double-click `start.cmd`: it checks for Node and dependencies, installs them if needed, and passes arguments through.
-
-After launch you have 5 seconds to point the mouse at the target. The cursor position at that moment becomes the target.
+`start.cmd --max 30` passes arguments through as well.
 
 ## Controls
 
@@ -38,8 +55,6 @@ After launch you have 5 seconds to point the mouse at the target. The cursor pos
 |---------|--------|
 | `Space` | pause / resume (time limit resets) |
 | `Esc`   | quit |
-
-Keys are captured globally, from any window.
 
 If you move the mouse more than 30 px away between clicks, the clicker pauses itself. `Space` resumes on the same target.
 
@@ -59,11 +74,11 @@ Settings object in `src/clicker.ts`:
 | `restMs` | [600, 1800] | rest duration, ms |
 | `awayPx` | 30 | auto-pause threshold |
 
-Delays are log-normal: clustered around the median with rare long tails. For a safer profile raise the `clickDelay` median to 350–450.
+The default profile is about 3–4 clicks per second. For a calmer one raise the `clickDelay` median to 350–450.
 
 ## Development
 
-TypeScript runs directly on Node 22.18+ (built-in type stripping), no build step. Dev dependencies are only needed for type-checking; `start.cmd` installs without them.
+TypeScript runs directly on Node 22.18+ (built-in type stripping), no build step. Dev dependencies are only needed for type-checking and tests; `start.cmd` installs without them.
 
 ```
 npm install          # with dev dependencies
@@ -71,15 +86,15 @@ npm test             # vitest
 npm run typecheck    # tsc --noEmit
 ```
 
-## Files
-
 - `src/clicker.ts` — entry: CLI args, settings, hotkeys
 - `src/engine.ts` — the click loop with injectable robot, clock and sleep
 - `src/utils.ts` — `logNormal`, `moveSmooth`, `sleep`, `rnd`
-- `src/lang.ts`, `src/locales.json` — UI strings (en, ru, es, zh). Add a language: new key in `locales.json`
+- `src/lang.ts`, `src/locales.json` — UI strings. Add a language: new key in `locales.json`
 - `test/` — tests
 - `start.cmd` — Windows launcher
 
+Native modules `robotjs` and `uiohook-napi` ship prebuilt binaries for Windows. macOS and Linux are untested.
+
 ## License
 
-MIT
+[MIT](LICENSE)
