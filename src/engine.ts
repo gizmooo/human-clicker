@@ -25,14 +25,16 @@ export type Deps = {
   log?: (msg: string) => void;
   sleep?: (ms: number) => Promise<void>;
   now?: () => number;
+  activeWindow?: () => Promise<unknown>; // id of the focused window; omit to disable focus tracking
 };
 
-export function createClicker(s: Settings, { robot, t, log = console.log, sleep = realSleep, now = Date.now }: Deps) {
+export function createClicker(s: Settings, { robot, t, log = console.log, sleep = realSleep, now = Date.now, activeWindow }: Deps) {
   let paused = false, stopped = false, deadline = 0;
+  let home: unknown, focusPaused = false; // target window, remembered after the first click
   const minutes = s.maxMs / 60_000;
 
   const pause = (why = "") => { paused = true; log(t("pause", { why: why && ": " + why })); };
-  const resume = () => { paused = false; deadline = now() + s.maxMs; log(t("resume")); };
+  const resume = (msg = t("resume")) => { paused = focusPaused = false; deadline = now() + s.maxMs; log(msg); };
   const toggle = () => (paused ? resume() : pause());
   const stop = () => { stopped = true; };
   const jitter = () => Math.round(rnd(-s.jitterPx, s.jitterPx));
@@ -45,11 +47,22 @@ export function createClicker(s: Settings, { robot, t, log = console.log, sleep 
 
     let clicks = 0, nextRest = rnd(...s.restEvery), nextShift = 0, lastPos = robot.getMousePos();
     while (!stopped) {
-      if (paused) { await sleep(100); lastPos = robot.getMousePos(); continue; }
+      if (paused) {
+        await sleep(100);
+        lastPos = robot.getMousePos();
+        if (focusPaused && (await activeWindow!()) === home) resume(t("focusBack"));
+        continue;
+      }
       if (now() > deadline) { log(t("limit", { m: minutes })); return "limit"; }
 
       const cur = robot.getMousePos();
       if (Math.hypot(cur.x - lastPos.x, cur.y - lastPos.y) > s.awayPx) { pause(t("away")); continue; }
+
+      if (activeWindow && clicks > 0) {
+        const win = await activeWindow(); // undefined = unknown, ignore
+        if (home === undefined) home = win;
+        else if (win !== undefined && win !== home) { paused = focusPaused = true; log(t("focusLost")); continue; }
+      }
 
       if (clicks >= nextShift) {
         await moveSmooth(robot, target.x + jitter(), target.y + jitter());

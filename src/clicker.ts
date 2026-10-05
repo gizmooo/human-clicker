@@ -1,5 +1,6 @@
 import robot from "robotjs";
 import { uIOhook, UiohookKey } from "uiohook-napi";
+import { activeWindow } from "get-windows";
 import { parseArgs } from "node:util";
 import { createClicker } from "./engine.ts";
 import { makeT, systemLang, languages } from "./lang.ts";
@@ -24,6 +25,7 @@ if (!(Number(args.max) > 0)) fail(`--max must be a positive number of minutes, g
 const t = makeT(args.lang ?? systemLang());
 
 // ================= SETTINGS =================
+const trackFocus = true;               // pause while the target window is not focused, resume when it is back
 const clicker = createClicker({
   fixedTarget: null,                   // {x: 500, y: 400} — fixed coordinates; null = mouse position at start
   startDelay: 5,                       // seconds before start, to point the mouse
@@ -35,7 +37,10 @@ const clicker = createClicker({
   restMs: [600, 1800],                 // rest duration
   awayPx: 30,                          // mouse moved further — auto-pause
   maxMs: Number(args.max) * 60_000,
-}, { robot, t });
+}, {
+  robot, t,
+  activeWindow: trackFocus ? async () => { try { return (await activeWindow())?.id; } catch { return undefined; } } : undefined,
+});
 // ============================================
 
 const exit = (msg?: string) => { if (msg) console.log(msg); uIOhook.stop(); process.exit(0); };

@@ -7,7 +7,9 @@
     "pause": "⏸ paused{why}. Space — resume",
     "away": "mouse moved away",
     "rest": "[{n}] resting {ms} ms",
-    "limit": "⏱ {m} min limit reached, quitting"
+    "limit": "⏱ {m} min limit reached, quitting",
+    "focusLost": "⏸ target window lost focus, waiting…",
+    "focusBack": "▶ target window is active again, resuming"
   },
   "ru": {
     "countdown": "старт через {n}… наведи мышь на цель",
@@ -17,7 +19,9 @@
     "pause": "⏸ пауза{why}. Space — продолжить",
     "away": "мышь увели",
     "rest": "[{n}] передышка {ms} мс",
-    "limit": "⏱ лимит {m} мин истёк, выход"
+    "limit": "⏱ лимит {m} мин истёк, выход",
+    "focusLost": "⏸ окно цели потеряло фокус, жду…",
+    "focusBack": "▶ окно цели снова активно, продолжаю"
   },
   "es": {
     "countdown": "inicio en {n}… apunta el ratón al objetivo",
@@ -27,7 +31,9 @@
     "pause": "⏸ pausa{why}. Espacio — continuar",
     "away": "el ratón se alejó",
     "rest": "[{n}] descanso {ms} ms",
-    "limit": "⏱ límite de {m} min alcanzado, saliendo"
+    "limit": "⏱ límite de {m} min alcanzado, saliendo",
+    "focusLost": "⏸ la ventana objetivo perdió el foco, esperando…",
+    "focusBack": "▶ la ventana objetivo está activa de nuevo, continuando"
   },
   "zh": {
     "countdown": "{n} 秒后开始… 请将鼠标指向目标",
@@ -37,6 +43,8 @@
     "pause": "⏸ 已暂停{why}。空格 — 继续",
     "away": "鼠标已移开",
     "rest": "[{n}] 休息 {ms} 毫秒",
-    "limit": "⏱ 已到 {m} 分钟限时，退出"
+    "limit": "⏱ 已到 {m} 分钟限时，退出",
+    "focusLost": "⏸ 目标窗口失去焦点，等待中…",
+    "focusBack": "▶ 目标窗口再次激活，继续"
   }
 }

@@ -4,11 +4,12 @@
   "private": true,
   "main": "src/clicker.ts",
   "scripts": {
-    "start": "node src/clicker.ts",
+    "start": "node --no-deprecation src/clicker.ts",
     "test": "vitest run",
     "typecheck": "tsc"
   },
   "dependencies": {
+    "get-windows": "^9.3.0",
     "robotjs": "^0.9.1",
     "uiohook-napi": "^1.5.5"
   },

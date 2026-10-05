@@ -25,6 +25,7 @@ A plain clicker fires every N milliseconds into the same pixel. That pattern is 
 
 - **Target from the mouse.** Point at what you want clicked, wait for the countdown, done. Fixed coordinates are available too.
 - **Safety auto-pause.** Move the mouse away and the clicker pauses itself instead of fighting you for the cursor.
+- **Window focus tracking.** Alt-Tab away and the clicker waits; it resumes by itself when the target window is active again.
 - **Global hotkeys.** `Space` pauses and resumes, `Esc` quits, from any window.
 - **Time limit.** Stops on its own after 60 minutes by default, so a forgotten clicker does not run all night.
 - **Four UI languages.** English, Russian, Spanish, Chinese, picked from the system locale.
@@ -58,6 +59,8 @@ npm start -- --help
 
 If you move the mouse more than 30 px away between clicks, the clicker pauses itself. `Space` resumes on the same target.
 
+The target window is remembered after the first click. While another window is focused the clicker waits and resumes on its own when the target is back.
+
 ## Settings
 
 Settings object in `src/clicker.ts`:
@@ -73,6 +76,7 @@ Settings object in `src/clicker.ts`:
 | `restEvery` | [20, 50] | clicks between rests |
 | `restMs` | [600, 1800] | rest duration, ms |
 | `awayPx` | 30 | auto-pause threshold |
+| `trackFocus` | `true` | pause while the target window is not focused |
 
 The default profile is about 3–4 clicks per second. For a calmer one raise the `clickDelay` median to 350–450.
 
@@ -93,7 +97,7 @@ npm run typecheck    # tsc --noEmit
 - `test/` — tests
 - `start.cmd` — Windows launcher
 
-Native modules `robotjs` and `uiohook-napi` ship prebuilt binaries for Windows. macOS and Linux are untested.
+Native modules `robotjs`, `uiohook-napi` and `get-windows` ship prebuilt binaries for Windows. macOS and Linux are untested.
 
 ## License
 

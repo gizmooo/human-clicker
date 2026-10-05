@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { createClicker, type Settings, type Robot } from "../src/engine.ts";
+import { createClicker, type Settings, type Robot, type Deps } from "../src/engine.ts";
 import { makeT } from "../src/lang.ts";
 
 // deterministic settings: sigma 0 → exact medians, zero-width ranges, no jitter
@@ -9,7 +9,7 @@ const base: Settings = {
   shiftEvery: [5, 5], restEvery: [1000, 1000], restMs: [500, 500], awayPx: 30, maxMs: 60_000,
 };
 
-function setup(over: Partial<Settings> = {}) {
+function setup(over: Partial<Settings> = {}, extra: Partial<Deps> = {}) {
   const logs: string[] = [], moves: [number, number][] = [], toggles: string[] = [], sleeps: number[] = [];
   let pos = { x: 100, y: 100 }, clock = 0, ups = 0, stopAfter = Infinity;
   let onSleep: (ms: number) => void = () => {};
@@ -20,7 +20,7 @@ function setup(over: Partial<Settings> = {}) {
   };
   const clicker = createClicker({ ...base, ...over }, {
     robot, t: makeT("en"), log: m => logs.push(m),
-    sleep: async ms => { sleeps.push(ms); clock += ms; onSleep(ms); }, now: () => clock,
+    sleep: async ms => { sleeps.push(ms); clock += ms; onSleep(ms); }, now: () => clock, ...extra,
   });
   return {
     clicker, logs, moves, toggles, sleeps,
@@ -148,5 +148,69 @@ describe("time limit", () => {
     });
     expect(await c.clicker.run()).toBe("stopped");
     expect(c.ups()).toBe(10);
+  });
+});
+
+describe("window focus", () => {
+  const withFocus = (over: Partial<Settings> = {}) => {
+    let win: unknown = "console";
+    const c = setup(over, { activeWindow: async () => win });
+    return { ...c, setWin: (w: unknown) => { win = w; } };
+  };
+
+  it("remembers the target window after the first click", async () => {
+    const c = withFocus();
+    c.stopAfter(4);
+    c.onSleep(() => { if (c.ups() === 1) c.setWin("game"); }); // the first click focused the game
+    await c.clicker.run();
+    expect(c.ups()).toBe(4);
+    expect(c.logs.some(l => l.includes("lost focus"))).toBe(false);
+  });
+
+  it("pauses when another window gets focus and resumes when it is back", async () => {
+    const c = withFocus();
+    c.stopAfter(4);
+    let pauseTicks = 0;
+    c.onSleep(ms => {
+      if (c.ups() === 1) c.setWin("game");
+      if (c.ups() === 2 && !c.clicker.paused && pauseTicks === 0) c.setWin("browser");
+      if (ms === 100 && c.clicker.paused && ++pauseTicks === 3) c.setWin("game");
+    });
+    await c.clicker.run();
+    expect(c.logs).toContain("⏸ target window lost focus, waiting…");
+    expect(c.logs).toContain("▶ target window is active again, resuming");
+    expect(pauseTicks).toBe(3);
+    expect(c.ups()).toBe(4);
+  });
+
+  it("ignores unknown window state", async () => {
+    const c = withFocus();
+    c.stopAfter(4);
+    c.onSleep(() => { if (c.ups() === 1) c.setWin("game"); if (c.ups() === 2) c.setWin(undefined); });
+    await c.clicker.run();
+    expect(c.logs.some(l => l.includes("lost focus"))).toBe(false);
+  });
+
+  it("re-pauses after Space while the target window is still not focused", async () => {
+    const c = withFocus();
+    c.stopAfter(3);
+    let toggled = false;
+    c.onSleep(ms => {
+      if (c.ups() === 1) c.setWin("game");
+      if (c.ups() === 2 && !c.clicker.paused && !toggled) c.setWin("browser");
+      if (ms === 100 && c.clicker.paused && !toggled) { toggled = true; c.clicker.toggle(); }
+      if (c.logs.filter(l => l.includes("lost focus")).length === 2) c.setWin("game");
+    });
+    await c.clicker.run();
+    expect(c.logs).toContain("▶ resuming, timer reset");
+    expect(c.logs.filter(l => l.includes("lost focus")).length).toBe(2);
+    expect(c.ups()).toBe(3);
+  });
+
+  it("does nothing without activeWindow", async () => {
+    const c = setup();
+    c.stopAfter(3);
+    await c.clicker.run();
+    expect(c.logs.some(l => l.includes("focus"))).toBe(false);
   });
 });
