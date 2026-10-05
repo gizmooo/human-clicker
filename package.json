@@ -18,7 +18,7 @@
   "repository": "github:gizmooo/human-clicker",
   "type": "module",
   "engines": {
-    "node": ">=24"
+    "node": ">=22.18.0"
   },
   "devDependencies": {
     "@types/node": "^26.6.4",

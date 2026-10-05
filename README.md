@@ -8,7 +8,7 @@ Auto-clicker that behaves like a human: log-normal delays, position jitter, butt
 
 ## Requirements
 
-- Node.js 24
+- Node.js 22.18 or newer (24 recommended): TypeScript runs natively, no build step
 - Windows (native modules `robotjs` and `uiohook-napi`; macOS/Linux untested)
 
 ## Install
@@ -60,7 +60,7 @@ Delays are log-normal: clustered around the median with rare long tails. For a s
 
 ## Development
 
-TypeScript runs directly on Node 24 (built-in type stripping), no build step. Dev dependencies are only needed for type-checking; `start.cmd` installs without them.
+TypeScript runs directly on Node 22.18+ (built-in type stripping), no build step. Dev dependencies are only needed for type-checking; `start.cmd` installs without them.
 
 ```
 npm install          # with dev dependencies
