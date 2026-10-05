@@ -99,6 +99,8 @@ npm run typecheck    # tsc --noEmit
 
 Native modules `robotjs`, `uiohook-napi` and `get-windows` ship prebuilt binaries for Windows. macOS and Linux are untested.
 
+Planned features are tracked in [issues](https://github.com/gizmooo/human-clicker/issues).
+
 ## License
 
 [MIT](LICENSE)
