@@ -21,6 +21,10 @@ A plain clicker fires every N milliseconds into the same pixel. That pattern is 
 - **Rests.** Every few dozen clicks the clicker takes a short break, like a hand that pauses.
 - **Smooth motion.** Cursor moves follow an ease-in-out curve instead of teleporting.
 
+## Compared to other clickers
+
+Popular open-source clickers (XClicker, oriash93/AutoClicker, clicker-rs) fire at a fixed or uniformly random interval into the current cursor position. Python libraries like HumanCursor model cursor paths well but are building blocks for Selenium scripts, not a tool you point and run. Human Clicker is the only one of these with log-normal timing, cursor shifts, rests, auto-pause when you grab the mouse, and window focus tracking, and it runs from a double-click on Windows.
+
 ## Features
 
 - **Target from the mouse.** Point at what you want clicked, wait for the countdown, done. Fixed coordinates are available too.
