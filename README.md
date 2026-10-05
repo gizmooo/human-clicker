@@ -1,5 +1,7 @@
 # human-clicker
 
+![CI](https://github.com/gizmooo/human-clicker/actions/workflows/ci.yml/badge.svg)
+
 [Русский](README.ru.md)
 
 Auto-clicker that behaves like a human: log-normal delays, position jitter, button hold time, occasional rests, smooth cursor moves.

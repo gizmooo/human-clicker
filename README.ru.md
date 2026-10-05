@@ -1,5 +1,7 @@
 # human-clicker
 
+![CI](https://github.com/gizmooo/human-clicker/actions/workflows/ci.yml/badge.svg)
+
 [English](README.md)
 
 Автокликер с «человеческим» поведением: лог-нормальные задержки, разброс позиции, удержание кнопки, передышки, плавное движение курсора.
