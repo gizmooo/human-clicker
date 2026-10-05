@@ -64,7 +64,7 @@ TypeScript выполняется Node 24 напрямую (встроенный
 
 ```
 npm install          # с dev-зависимостями
-npm test             # node:test
+npm test             # vitest
 npm run typecheck    # tsc --noEmit
 ```
 

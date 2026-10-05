@@ -64,7 +64,7 @@ TypeScript runs directly on Node 24 (built-in type stripping), no build step. De
 
 ```
 npm install          # with dev dependencies
-npm test             # node:test
+npm test             # vitest
 npm run typecheck    # tsc --noEmit
 ```
 

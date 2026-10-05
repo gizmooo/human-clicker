@@ -5,7 +5,7 @@
   "main": "src/clicker.ts",
   "scripts": {
     "start": "node src/clicker.ts",
-    "test": "node --test \"test/**/*.test.ts\"",
+    "test": "vitest run",
     "typecheck": "tsc"
   },
   "dependencies": {
@@ -22,6 +22,7 @@
   },
   "devDependencies": {
     "@types/node": "^26.6.4",
-    "typescript": "^7.0.2"
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.3"
   }
 }
