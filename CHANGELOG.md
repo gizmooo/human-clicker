@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [1.1.0] - 2026-10-05
 
 ### Added
 - Window focus tracking: pauses while the target window is not focused, resumes when it is back (`trackFocus`)
